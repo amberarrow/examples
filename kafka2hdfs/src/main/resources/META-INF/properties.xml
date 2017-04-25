@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<configuration>
+  <!-- memory assigned to app master -->
+  <property>
+    <name>dt.attr.MASTER_MEMORY_MB</name>
+    <value>750</value>
+  </property>
+
+  <!-- SampleApp -->
+
+  <!-- Limit memory for all operators -->
+  <property>
+    <name>dt.application.SampleApp.operator.*.attr.MEMORY_MB</name>
+    <value>200</value>
+  </property>
+
+  <!-- Kafka input operator -->
+  <property>
+    <name>dt.application.SampleApp.operator.kafkaIn.prop.topics</name>
+    <value>training</value>
+  </property>
+  <property>
+    <name>dt.application.SampleApp.operator.kafkaIn.prop.clusters</name>
+    <value>localhost:9092</value>  <!-- broker (NOT zookeeper) address -->
+  </property>
+  <property>
+    <name>dt.application.SampleApp.operator.kafkaIn.prop.numTuples</name>
+    <value>1000</value>
+  </property>
+
+  <!-- CSV parser -->
+  <property>
+    <name>dt.application.SampleApp.operator.csvParser.prop.schema</name>
+    <value>{
+    "separator": ",",
+    "quoteChar":"\"",
+    "fields": [
+        {
+            "name": "fullName",
+            "type": "String",
+            "constraints": {"required": "true"}
+        },
+        {
+            "name": "id",
+            "type": "String"
+        },
+        {
+            "name": "amount",
+            "type": "Double",
+            "constraints": {"required": "true","minValue": "1.0"}
+        },
+    ]
+    }
+    </value>
+  </property>
+  <property>
+    <name>dt.application.SampleApp.operator.csvParser.port.out.attr.TUPLE_CLASS</name>
+    <value>com.example.myapexapp.Employee</value>
+  </property>
+
+  <!-- File output operator -->
+  <property>
+    <name>dt.application.SampleApp.operator.fileOut.prop.filePath</name>
+    <value>/tmp/training/output</value>
+  </property>
+  <property>
+    <name>dt.application.SampleApp.operator.fileOut.prop.baseName</name>
+    <value>from-kafka</value>
+  </property>
+
+</configuration>
+
